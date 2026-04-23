@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>복기·리뷰 점검표 — 조교용</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --accent: #5a3ec8;
+  --accent-light: #ede8f8;
+  --accent-dim: #d8cefc;
+  --bg: linear-gradient(135deg, #e4dcf8 0%, #dde8f8 50%, #ddf4ee 100%);
+  --page: #f8f6ff;
+  --banner: linear-gradient(120deg, #d8cefc 0%, #c8daf8 100%);
+  --banner-border: #ccc0ee;
+  --border: #ccc0ee;
+  --border2: #ddd6f5;
+  --ink: #1e1535;
+  --mid: #5a4880;
+  --faint: #a090c8;
+  --green: #2e9e6b;
+  --green-dim: #e0f5ec;
+  --amber: #c87e20;
+  --amber-dim: #fef3e0;
+  --red-c: #c83838;
+  --red-dim: #fdeaea;
+  --success-bg: #e8f8f0;
+  --success: #1e8a50;
+  --error-bg: #fdeaea;
+  --error: #c83838;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 16px 12px 60px;
+  color: var(--ink);
+}
+
+.page {
+  max-width: 520px; margin: 0 auto;
+  background: var(--page);
+  border-radius: 18px;
+  box-shadow: 0 6px 28px rgba(90,62,200,0.12), 0 0 0 1.5px var(--border2);
+  overflow: hidden;
+}
+
+/* BANNER */
+.banner {
+  background: var(--banner);
+  padding: 20px 22px 16px;
+  border-bottom: 2px solid var(--banner-border);
+  position: relative; overflow: hidden;
+}
+.banner::before {
+  content: ''; position: absolute; right: -20px; top: -30px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(90,62,200,0.07);
+}
+.banner-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+  color: var(--accent); margin-bottom: 7px;
+  background: rgba(90,62,200,0.10); border: 1px solid rgba(90,62,200,0.2);
+  display: inline-block; padding: 2px 9px; border-radius: 4px;
+  position: relative; z-index: 1;
+}
+.banner h1 {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 20px; color: var(--ink); line-height: 1.25;
+  position: relative; z-index: 1;
+}
+.banner h1 em { color: var(--accent); font-style: normal; }
+.banner-sub {
+  font-size: 11px; color: var(--mid); margin-top: 6px;
+  position: relative; z-index: 1;
+}
+
+/* BODY */
+.body { padding: 18px 18px 24px; }
+
+/* FIELD GROUP */
+.field-group {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 16px;
+}
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field.full { grid-column: 1 / -1; }
+.field label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em;
+  color: var(--faint); text-transform: uppercase;
+}
+.field input {
+  border: 1.5px solid var(--border); border-radius: 8px;
+  background: white; padding: 9px 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px; color: var(--ink); outline: none;
+  transition: border-color 0.2s; width: 100%;
+}
+.field input:focus { border-color: var(--accent); }
+.field input::placeholder { color: #c0b4d8; }
+
+/* SECTION */
+.section { margin-bottom: 18px; }
+.sec-head {
+  display: flex; align-items: center; gap: 9px;
+  margin-bottom: 9px; padding: 8px 13px;
+  background: var(--accent-light); border-radius: 8px;
+  border-left: 3px solid var(--accent);
+}
+.sec-head.amber { border-left-color: var(--amber); background: #fdf6e8; }
+.sec-head.red   { border-left-color: var(--red-c); background: #fdf0f0; }
+.sec-head.green { border-left-color: var(--green); background: #eef8f3; }
+.sec-badge {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 2px 7px; border-radius: 3px;
+  background: rgba(90,62,200,0.10); color: var(--accent);
+  border: 1px solid rgba(90,62,200,0.18); white-space: nowrap; flex-shrink: 0;
+}
+.sec-badge.amber { background: rgba(200,126,32,0.10); color: var(--amber); border-color: rgba(200,126,32,0.2); }
+.sec-badge.red   { background: rgba(200,56,56,0.10);  color: var(--red-c); border-color: rgba(200,56,56,0.2); }
+.sec-badge.green { background: rgba(46,158,107,0.10); color: var(--green); border-color: rgba(46,158,107,0.2); }
+.sec-title { font-size: 13px; font-weight: 700; color: var(--ink); flex: 1; }
+.sec-tip { font-size: 9.5px; color: var(--faint); white-space: nowrap; }
+
+/* CHECK ITEM */
+.check-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 10px; border-radius: 7px;
+  cursor: pointer; transition: background 0.12s;
+  user-select: none; margin-bottom: 2px;
+}
+.check-item:active { background: var(--accent-light); }
+.chk-box {
+  width: 20px; height: 20px; min-width: 20px;
+  border: 1.5px solid var(--faint); border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; font-size: 11px;
+  color: transparent; background: white; pointer-events: none;
+}
+.check-item.checked .chk-box { background: var(--accent); border-color: var(--accent); color: white; }
+.check-item.checked .chk-label { text-decoration: line-through; opacity: 0.38; }
+.chk-label { font-size: 13px; line-height: 1.6; color: var(--ink); pointer-events: none; transition: opacity 0.2s; flex: 1; }
+.chk-sub { display: block; font-size: 10.5px; color: var(--mid); margin-top: 2px; font-style: italic; }
+
+/* RATING */
+.rating-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.rating-box {
+  background: white; border: 1px solid var(--border2);
+  border-radius: 8px; padding: 10px 12px;
+}
+.rating-label { font-size: 10px; color: var(--mid); margin-bottom: 7px; font-weight: 700; letter-spacing: 0.04em; }
+.rate-btns { display: flex; gap: 5px; }
+.rate-btn {
+  flex: 1; padding: 6px 2px; border-radius: 5px;
+  border: 1px solid var(--border2); background: #faf8ff;
+  color: var(--mid); font-size: 11.5px; font-weight: 700;
+  cursor: pointer; transition: all 0.13s; text-align: center;
+  user-select: none; font-family: 'Noto Sans KR', sans-serif;
+}
+.rate-btn.sel-pass { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.rate-btn.sel-warn { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+.rate-btn.sel-fail { background: var(--red-dim);   border-color: var(--red-c); color: var(--red-c); }
+
+/* TEXTAREA */
+.write-area {
+  width: 100%; border: 1.5px solid var(--border); border-radius: 8px;
+  background: white; padding: 10px 12px;
+  font-family: 'Noto Sans KR', sans-serif; font-size: 13px; color: var(--ink);
+  resize: vertical; min-height: 52px; outline: none;
+  transition: border-color 0.2s; line-height: 1.7;
+}
+.write-area:focus { border-color: var(--accent); }
+.write-area::placeholder { color: #c0b4d8; }
+.field-sub { font-size: 11px; font-weight: 700; color: var(--mid); margin: 10px 0 5px; }
+
+/* VERDICT */
+.verdict-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; margin-top: 5px; }
+.verdict-btn {
+  padding: 11px 6px; border-radius: 8px;
+  border: 1.5px solid var(--border2); background: white;
+  color: var(--mid); font-size: 12px; font-weight: 700;
+  cursor: pointer; text-align: center; transition: all 0.13s;
+  user-select: none; font-family: 'Noto Sans KR', sans-serif; line-height: 1.5;
+}
+.verdict-btn .icon { font-size: 17px; display: block; margin-bottom: 3px; }
+.verdict-btn.sel-ok    { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.verdict-btn.sel-watch { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+.verdict-btn.sel-stop  { background: var(--red-dim);   border-color: var(--red-c); color: var(--red-c); }
+
+/* SUBMIT */
+.submit-btn {
+  width: 100%; padding: 14px;
+  background: var(--accent); color: white; border: none;
+  border-radius: 10px; font-size: 15px; font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer; transition: all 0.15s;
+  box-shadow: 0 4px 14px rgba(90,62,200,0.30);
+  letter-spacing: 0.03em; margin-top: 16px;
+}
+.submit-btn:hover { background: #4a2eb0; }
+.submit-btn:active { transform: scale(0.99); }
+.submit-btn:disabled { background: var(--faint); box-shadow: none; cursor: not-allowed; }
+
+/* STATUS */
+.status-box {
+  display: none; margin-top: 14px; padding: 14px 16px;
+  border-radius: 10px; font-size: 13.5px; font-weight: 700;
+  text-align: center; line-height: 1.7;
+}
+.status-box.success { display: block; background: var(--success-bg); color: var(--success); border: 1.5px solid #a8e0c0; }
+.status-box.error   { display: block; background: var(--error-bg);   color: var(--error);   border: 1.5px solid #f0b8b8; }
+
+.divider { height: 1px; background: var(--border2); margin: 12px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="banner">
+    <div class="banner-tag">STAFF / 조교 점검표</div>
+    <h1>복기·리뷰 <em>수업 전 점검</em></h1>
+    <div class="banner-sub">수업 시작 전 학생 제출물 기준으로 항목별 점검 후 최종 판정</div>
+  </div>
+
+  <div class="body">
+
+    <!-- 기본 정보 -->
+    <div class="field-group">
+      <div class="field"><label>학생명 *</label><input type="text" id="t_student" placeholder="학생 이름" required/></div>
+      <div class="field"><label>점검 날짜 *</label><input type="date" id="t_date" required/></div>
+      <div class="field"><label>단원</label><input type="text" id="t_unit" placeholder="예: 이차방정식"/></div>
+      <div class="field"><label>조교명</label><input type="text" id="t_staff" placeholder="조교 이름"/></div>
+    </div>
+
+    <!-- STEP 01 -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-badge">STEP 01</div>
+        <div class="sec-title">제출물 기본 확인</div>
+        <div class="sec-tip">30초 내</div>
+      </div>
+      <div class="check-item" data-key="t1_1"><div class="chk-box">✓</div><span class="chk-label">체크리스트 제출 여부<span class="chk-sub">미제출 → 즉시 작성 지시</span></span></div>
+      <div class="check-item" data-key="t1_2"><div class="chk-box">✓</div><span class="chk-label">풀이지에 틀린 문제 표시(★/?) 여부</span></div>
+      <div class="check-item" data-key="t1_3"><div class="chk-box">✓</div><span class="chk-label">날짜 · 단원 · 이름 기입 여부</span></div>
+    </div>
+
+    <!-- STEP 02 -->
+    <div class="section">
+      <div class="sec-head amber">
+        <div class="sec-badge amber">STEP 02</div>
+        <div class="sec-title">복기 (Error Analysis) 점검</div>
+      </div>
+      <div class="check-item" data-key="t2_1"><div class="chk-box">✓</div><span class="chk-label">틀린 이유가 학생 자신의 말로 작성되었는가<span class="chk-sub">해설 그대로 → 불인정 / 재작성 요구</span></span></div>
+      <div class="check-item" data-key="t2_2"><div class="chk-box">✓</div><span class="chk-label">원인 분류(실수/개념 오해/독해 실패)가 구분되어 있는가</span></div>
+      <div class="check-item" data-key="t2_3"><div class="chk-box">✓</div><span class="chk-label">구두 확인: 틀린 이유를 말로 설명할 수 있는가<span class="chk-sub">설명 불가 → 복기 미완성 판정</span></span></div>
+      <div class="check-item" data-key="t2_4"><div class="chk-box">✓</div><span class="chk-label">이번에도 같은 유형의 실수인가<span class="chk-sub">반복 실수 → 원장 보고 대상</span></span></div>
+      <div class="rating-row">
+        <div class="rating-box">
+          <div class="rating-label">복기 작성 수준</div>
+          <div class="rate-btns" data-group="r_write">
+            <div class="rate-btn" data-cls="sel-pass">충분</div>
+            <div class="rate-btn" data-cls="sel-warn">부족</div>
+            <div class="rate-btn" data-cls="sel-fail">미작성</div>
+          </div>
+        </div>
+        <div class="rating-box">
+          <div class="rating-label">구두 설명 수준</div>
+          <div class="rate-btns" data-group="r_verbal">
+            <div class="rate-btn" data-cls="sel-pass">명확</div>
+            <div class="rate-btn" data-cls="sel-warn">불명확</div>
+            <div class="rate-btn" data-cls="sel-fail">불가</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 03 -->
+    <div class="section">
+      <div class="sec-head green">
+        <div class="sec-badge green">STEP 03</div>
+        <div class="sec-title">리뷰 (Review) 점검</div>
+      </div>
+      <div class="check-item" data-key="t3_1"><div class="chk-box">✓</div><span class="chk-label">해설 없이 재풀이한 흔적이 있는가<span class="chk-sub">해설 베끼기 → 미이행</span></span></div>
+      <div class="check-item" data-key="t3_2"><div class="chk-box">✓</div><span class="chk-label">구두 확인: 풀이를 단계별로 설명할 수 있는가<span class="chk-sub">"왜 이 식을 썼어?" 질문 1개로 확인</span></span></div>
+      <div class="check-item" data-key="t3_3"><div class="chk-box">✓</div><span class="chk-label">다른 풀이 방법을 생각해봤는지 구두 확인</span></div>
+      <div class="rating-row">
+        <div class="rating-box">
+          <div class="rating-label">리뷰 이행 수준</div>
+          <div class="rate-btns" data-group="r_review">
+            <div class="rate-btn" data-cls="sel-pass">이행</div>
+            <div class="rate-btn" data-cls="sel-warn">부분</div>
+            <div class="rate-btn" data-cls="sel-fail">미이행</div>
+          </div>
+        </div>
+        <div class="rating-box">
+          <div class="rating-label">개념 내재화 수준</div>
+          <div class="rate-btns" data-group="r_concept">
+            <div class="rate-btn" data-cls="sel-pass">완성</div>
+            <div class="rate-btn" data-cls="sel-warn">진행 중</div>
+            <div class="rate-btn" data-cls="sel-fail">미완성</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 04 -->
+    <div class="section">
+      <div class="sec-head red">
+        <div class="sec-badge red">STEP 04</div>
+        <div class="sec-title">조교 메모 &amp; 원장 전달 사항</div>
+      </div>
+      <div class="field-sub">반복 실수 패턴</div>
+      <textarea class="write-area" id="t_pattern" rows="2" placeholder="예: 3주 연속 인수분해 판단 오류. 개념 재점검 필요."></textarea>
+      <div class="field-sub">오늘 특이사항 (태도·집중도 등)</div>
+      <textarea class="write-area" id="t_note" rows="2" placeholder="예: 복기 미작성. 시간 부족 호소. 숙제량 조정 검토 필요."></textarea>
+      <div class="field-sub">다음 수업 확인 요청</div>
+      <textarea class="write-area" id="t_next" rows="2" placeholder="예: 이차방정식 근의 공식 백지 테스트 진행 권장."></textarea>
+    </div>
+
+    <!-- FINAL -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-badge">FINAL</div>
+        <div class="sec-title">최종 판정</div>
+        <div class="sec-tip">원장 보고 기준</div>
+      </div>
+      <div class="verdict-row" id="verdictRow">
+        <div class="verdict-btn" data-verdict="수업 진행"><span class="icon">✅</span>수업 진행<span style="display:block;font-size:10px;opacity:0.7;">복기·리뷰 충족</span></div>
+        <div class="verdict-btn" data-verdict="주의 관찰"><span class="icon">⚠️</span>주의 관찰<span style="display:block;font-size:10px;opacity:0.7;">부분 미이행</span></div>
+        <div class="verdict-btn" data-verdict="원장 보고"><span class="icon">🚫</span>원장 보고<span style="display:block;font-size:10px;opacity:0.7;">복기 미완성</span></div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-sub">판정 사유 (한 줄)</div>
+      <textarea class="write-area" id="t_verdict_reason" rows="2" placeholder="예: 복기 작성 완료했으나 구두 설명 불가. 원장 보고."></textarea>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitForm()">📋 점검 결과 제출</button>
+    <div class="status-box" id="statusBox"></div>
+
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ⚠️ 여기에 Google Apps Script 배포 URL을 붙여넣으세요
+const GAS_URL = "YOUR_GAS_WEB_APP_URL_HERE";
+// ============================================================
+
+const d = document.getElementById('t_date');
+if(d){ const t=new Date(); d.value=`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`; }
+
+document.querySelectorAll('.check-item').forEach(el => {
+  el.addEventListener('click', function(){ this.classList.toggle('checked'); });
+});
+
+// 평가 버튼 단일 선택
+document.querySelectorAll('.rate-btns').forEach(group => {
+  group.querySelectorAll('.rate-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      group.querySelectorAll('.rate-btn').forEach(b => b.className = 'rate-btn');
+      this.classList.add(this.dataset.cls);
+    });
+  });
+});
+
+// 판정 버튼
+const vRow = document.getElementById('verdictRow');
+vRow.querySelectorAll('.verdict-btn').forEach(btn => {
+  btn.addEventListener('click', function(){
+    vRow.querySelectorAll('.verdict-btn').forEach(b => b.classList.remove('sel-ok','sel-watch','sel-stop'));
+    const map = {'수업 진행':'sel-ok','주의 관찰':'sel-watch','원장 보고':'sel-stop'};
+    this.classList.add(map[this.dataset.verdict]);
+  });
+});
+
+function getChecks() {
+  const r = {};
+  document.querySelectorAll('.check-item[data-key]').forEach(el => {
+    r[el.dataset.key] = el.classList.contains('checked') ? '✓' : '✗';
+  });
+  return r;
+}
+
+function getRating(groupName) {
+  const group = document.querySelector(`.rate-btns[data-group="${groupName}"]`);
+  if (!group) return '미선택';
+  const sel = group.querySelector('.rate-btn.sel-pass, .rate-btn.sel-warn, .rate-btn.sel-fail');
+  return sel ? sel.textContent.trim() : '미선택';
+}
+
+function getVerdict() {
+  const sel = vRow.querySelector('.verdict-btn.sel-ok, .verdict-btn.sel-watch, .verdict-btn.sel-stop');
+  return sel ? sel.dataset.verdict : '미선택';
+}
+
+async function submitForm() {
+  const student = document.getElementById('t_student').value.trim();
+  const date = document.getElementById('t_date').value;
+  if (!student) { alert('학생명을 입력해주세요.'); document.getElementById('t_student').focus(); return; }
+  if (!date) { alert('날짜를 선택해주세요.'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('statusBox');
+  btn.disabled = true;
+  btn.textContent = '⏳ 제출 중...';
+  status.className = 'status-box';
+
+  const checks = getChecks();
+  const payload = {
+    type: 'staff',
+    student_name: student,
+    date,
+    unit: document.getElementById('t_unit').value.trim(),
+    staff_name: document.getElementById('t_staff').value.trim(),
+    // 체크
+    t1_1: checks.t1_1, t1_2: checks.t1_2, t1_3: checks.t1_3,
+    t2_1: checks.t2_1, t2_2: checks.t2_2, t2_3: checks.t2_3, t2_4: checks.t2_4,
+    t3_1: checks.t3_1, t3_2: checks.t3_2, t3_3: checks.t3_3,
+    // 평가
+    write_level: getRating('r_write'),
+    verbal_level: getRating('r_verbal'),
+    review_level: getRating('r_review'),
+    concept_level: getRating('r_concept'),
+    // 메모
+    pattern: document.getElementById('t_pattern').value.trim(),
+    note: document.getElementById('t_note').value.trim(),
+    next_action: document.getElementById('t_next').value.trim(),
+    verdict: getVerdict(),
+    verdict_reason: document.getElementById('t_verdict_reason').value.trim(),
+    submitted_at: new Date().toLocaleString('ko-KR')
+  };
+
+  try {
+    await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    status.className = 'status-box success';
+    status.innerHTML = '✅ 점검 결과 제출 완료!<br><span style="font-weight:400;font-size:12px;">구글 시트에 저장되었습니다.</span>';
+    btn.textContent = '✅ 제출 완료';
+  } catch(err) {
+    status.className = 'status-box error';
+    status.innerHTML = '❌ 제출 실패<br><span style="font-weight:400;font-size:12px;">인터넷 연결을 확인하고 다시 시도해주세요.</span>';
+    btn.disabled = false;
+    btn.textContent = '📋 점검 결과 제출';
+  }
+}
+</script>
+</body>
+</html>
